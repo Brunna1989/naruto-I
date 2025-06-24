@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,7 +16,6 @@ public class PersonagemService {
 
     private final PersonagemRepository personagemRepository;
     private final PersonagemMapper personagemMapper;
-
 
     public List<PersonagemDTO> findAll() {
         return personagemRepository.findAll().stream()
@@ -38,12 +36,17 @@ public class PersonagemService {
     }
 
     public PersonagemDTO update(Long id, PersonagemDTO personagemDTO) {
-        Optional<Personagem> existing = personagemRepository.findById(id);
-        if (existing.isEmpty()) {
-            throw new RuntimeException("Personagem não encontrado com ID: " + id);
-        }
-        Personagem personagem = personagemMapper.toEntity(personagemDTO);
-        personagem.setId(id);
+        // ✅ Aqui é o ponto crítico:
+        // NÃO usa o Mapper — pega do banco e altera os campos!
+        Personagem personagem = personagemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Personagem não encontrado com ID: " + id));
+
+        personagem.setNome(personagemDTO.getNome());
+        personagem.setIdade(personagemDTO.getIdade());
+        personagem.setAldeia(personagemDTO.getAldeia());
+        personagem.setChakra(personagemDTO.getChakra());
+        personagem.setJutsus(personagemDTO.getJutsus());
+
         Personagem updated = personagemRepository.save(personagem);
         return personagemMapper.toDTO(updated);
     }
