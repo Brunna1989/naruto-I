@@ -29,4 +29,16 @@ public class PersonagemController {
     public ResponseEntity<PersonagemDTO> create(@RequestBody PersonagemDTO dto) {
         return ResponseEntity.ok(personagemService.save(dto));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PersonagemDTO> update(@PathVariable Long id, @RequestBody PersonagemDTO dto) {
+        return ResponseEntity.ok(personagemService.update(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        personagemService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
