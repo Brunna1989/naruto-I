@@ -41,6 +41,7 @@ class PersonagemControllerIntegrationTest {
 		personagemDTO.setAldeia("Konoha");
 		personagemDTO.setChakra(500);
 		personagemDTO.setJutsus(Collections.singletonList("Rasengan"));
+		personagemDTO.setTipoNinja("NINJUTSU");
 	}
 
 	@Test
@@ -69,6 +70,7 @@ class PersonagemControllerIntegrationTest {
 
 		personagemDTO.setNome("Naruto Hokage");
 		personagemDTO.setChakra(999);
+		personagemDTO.setTipoNinja("NINJUTSU");
 
 		mockMvc.perform(put("/api/personagens/{id}", id)
 						.contentType(MediaType.APPLICATION_JSON)

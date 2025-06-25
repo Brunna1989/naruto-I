@@ -28,6 +28,7 @@ public abstract class Personagem {
 
     private int chakra;
 
+
     @ElementCollection
     private List<String> jutsus = new ArrayList<>();
 }

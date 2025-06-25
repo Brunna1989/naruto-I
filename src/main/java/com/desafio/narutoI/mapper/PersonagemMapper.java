@@ -10,9 +10,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface PersonagemMapper {
     PersonagemDTO toDTO(Personagem personagem);
-    PersonagemDTO toDTO(NinjaDeNinjutsu personagem);
-    PersonagemDTO toDTO(NinjaDeGenjutsu personagem);
-    PersonagemDTO toDTO(NinjaDeTaijutsu personagem);
-
     NinjaDeNinjutsu toEntity(PersonagemDTO dto);
+    NinjaDeGenjutsu toGenjutsuEntity(PersonagemDTO dto);
+    NinjaDeTaijutsu toTaijutsuEntity(PersonagemDTO dto);
 }

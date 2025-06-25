@@ -13,4 +13,5 @@ public class PersonagemDTO {
     private String aldeia;
     private int chakra;
     private List<String> jutsus;
+    private String tipoNinja;
 }

@@ -6,7 +6,6 @@ import com.desafio.narutoI.mapper.PersonagemMapper;
 import com.desafio.narutoI.repositories.PersonagemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,23 +29,27 @@ public class PersonagemService {
     }
 
     public PersonagemDTO save(PersonagemDTO personagemDTO) {
-        Personagem personagem = personagemMapper.toEntity(personagemDTO);
+        Personagem personagem;
+        String tipo = personagemDTO.getTipoNinja();
+        if ("GENJUTSU".equalsIgnoreCase(tipo)) {
+            personagem = personagemMapper.toGenjutsuEntity(personagemDTO);
+        } else if ("TAIJUTSU".equalsIgnoreCase(tipo)) {
+            personagem = personagemMapper.toTaijutsuEntity(personagemDTO);
+        } else {
+            personagem = personagemMapper.toEntity(personagemDTO);
+        }
         Personagem saved = personagemRepository.save(personagem);
         return personagemMapper.toDTO(saved);
     }
 
     public PersonagemDTO update(Long id, PersonagemDTO personagemDTO) {
-        // ✅ Aqui é o ponto crítico:
-        // NÃO usa o Mapper — pega do banco e altera os campos!
         Personagem personagem = personagemRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Personagem não encontrado com ID: " + id));
-
         personagem.setNome(personagemDTO.getNome());
         personagem.setIdade(personagemDTO.getIdade());
         personagem.setAldeia(personagemDTO.getAldeia());
         personagem.setChakra(personagemDTO.getChakra());
         personagem.setJutsus(personagemDTO.getJutsus());
-
         Personagem updated = personagemRepository.save(personagem);
         return personagemMapper.toDTO(updated);
     }

@@ -1,3 +1,4 @@
+// src/main/java/com/desafio/narutoI/controller/PersonagemController.java
 package com.desafio.narutoI.controller;
 
 import com.desafio.narutoI.dto.PersonagemDTO;
@@ -5,7 +6,6 @@ import com.desafio.narutoI.services.PersonagemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -40,5 +40,4 @@ public class PersonagemController {
         personagemService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }
