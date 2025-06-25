@@ -1,0 +1,22 @@
+* [33m7d7394a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/desenvolvendo[m[33m, [m[1;32mdesenvolvendo[m[33m)[m Commits finais de desenvolvimento, após testar toda a aplicação.
+* [33mf9f35d9[m Conclusão de implementações de requisições na classe controller.
+* [33m879ee40[m Iniciando controller.
+* [33mf26b24b[m Adição de métodos do CRUD na classe service.
+* [33m01e6c3e[m Refatoração da classe PersonagemMapper para retorno correto de parâmetro do tipo NinjaDeNinjutsu, o que estava retornando erro na service.
+* [33m942fce6[m Adição de classe mapper e service.
+* [33m0678fd2[m Adicionando classe PersonagemDTO.
+* [33m695ee53[m Adicionando classes ao pacote repositories.
+* [33md5b70b2[m Adicionando a classe de testes unitários NinjaDeGenjutsuTest.java.
+* [33mfc280f7[m Adicionando a classe entidade NinjaDeGenjutsu.java.
+* [33mc7aa78e[m Adicionando testes à classe de testes unitários NinjaDeNinjutsuTest.java.
+* [33mc7381cf[m Iniciando testes unitarios da classe NinjaDeNinjutsuTest.java.
+* [33ma600c70[m Adicionando entidade correta NinjaDeNinjutsu.
+* [33mbc6a2ae[m Refatorando em nova branch criada à partir da master, devido a erros de compilação.
+* [33mdf02861[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m Adicionando classe de testes unitários.
+* [33m3e2f6b9[m Adição de classe de testes unitários NinjaDeTaijutsuTest.java.
+* [33mccbbbbb[m Adição de entidade NinjaDeTaijutsu.
+* [33m9abbe49[m Adição de interface para padronização de comportamentos do Objeto.
+* [33mb898576[m Adição de entidade Personagem.
+* [33mb7af380[m Adição de configuração no banco de dados.
+* [33m987fd87[m Adicição de configuração para utilização do banco de dados em memória - H2.
+* [33mc2ef21d[m Adicionando dependências do MapStruct, para devido uso de Mappers em Java 17 ou superior e plugins do Lombok MapStruct Biding para reforçar que o uso de mapeamentos entre Lombok e MapStruct sejam realizados de forma correta.

@@ -1,63 +1,85 @@
 package com.desafio.narutoI.services;
 
 import com.desafio.narutoI.dto.PersonagemDTO;
-import com.desafio.narutoI.entidades.Personagem;
-import com.desafio.narutoI.mapper.PersonagemMapper;
+import com.desafio.narutoI.entidades.*;
 import com.desafio.narutoI.repositories.PersonagemRepository;
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class PersonagemService {
 
-    private final PersonagemRepository personagemRepository;
-    private final PersonagemMapper personagemMapper;
+    @Autowired
+    private PersonagemRepository personagemRepository;
 
-    public List<PersonagemDTO> findAll() {
-        return personagemRepository.findAll().stream()
-                .map(personagemMapper::toDTO)
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    public PersonagemDTO salvar(PersonagemDTO dto) {
+        Personagem personagem = converterDTOParaEntidade(dto);
+        personagem = personagemRepository.save(personagem);
+        return converterEntidadeParaDTO(personagem);
+    }
+
+    public List<PersonagemDTO> listarTodos() {
+        return personagemRepository.findAll()
+                .stream()
+                .map(this::converterEntidadeParaDTO)
                 .collect(Collectors.toList());
     }
 
-    public PersonagemDTO findById(Long id) {
-        Personagem personagem = personagemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Personagem não encontrado com ID: " + id));
-        return personagemMapper.toDTO(personagem);
+    public Optional<PersonagemDTO> buscarPorId(Long id) {
+        return personagemRepository.findById(id)
+                .map(this::converterEntidadeParaDTO);
     }
 
-    public PersonagemDTO save(PersonagemDTO personagemDTO) {
-        Personagem personagem;
-        String tipo = personagemDTO.getTipoNinja();
-        if ("GENJUTSU".equalsIgnoreCase(tipo)) {
-            personagem = personagemMapper.toGenjutsuEntity(personagemDTO);
-        } else if ("TAIJUTSU".equalsIgnoreCase(tipo)) {
-            personagem = personagemMapper.toTaijutsuEntity(personagemDTO);
-        } else {
-            personagem = personagemMapper.toEntity(personagemDTO);
+    public Optional<PersonagemDTO> atualizar(Long id, PersonagemDTO dto) {
+        return personagemRepository.findById(id).map(personagemExistente -> {
+            Personagem personagemAtualizado = converterDTOParaEntidade(dto);
+            personagemAtualizado.setId(id);
+            personagemAtualizado = personagemRepository.save(personagemAtualizado);
+            return converterEntidadeParaDTO(personagemAtualizado);
+        });
+    }
+
+    public boolean deletar(Long id) {
+        if (personagemRepository.existsById(id)) {
+            personagemRepository.deleteById(id);
+            return true;
         }
-        Personagem saved = personagemRepository.save(personagem);
-        return personagemMapper.toDTO(saved);
+        return false;
     }
 
-    public PersonagemDTO update(Long id, PersonagemDTO personagemDTO) {
-        Personagem personagem = personagemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Personagem não encontrado com ID: " + id));
-        personagem.setNome(personagemDTO.getNome());
-        personagem.setIdade(personagemDTO.getIdade());
-        personagem.setAldeia(personagemDTO.getAldeia());
-        personagem.setChakra(personagemDTO.getChakra());
-        personagem.setJutsus(personagemDTO.getJutsus());
-        Personagem updated = personagemRepository.save(personagem);
-        return personagemMapper.toDTO(updated);
-    }
-
-    public void delete(Long id) {
-        if (!personagemRepository.existsById(id)) {
-            throw new RuntimeException("Personagem não encontrado com ID: " + id);
+    private Personagem converterDTOParaEntidade(PersonagemDTO dto) {
+        if (dto.getTipoNinja() == null) {
+            throw new IllegalArgumentException("Tipo de ninja não pode ser nulo");
         }
-        personagemRepository.deleteById(id);
+        switch (dto.getTipoNinja().toUpperCase()) {
+            case "NINJUTSU":
+                return objectMapper.convertValue(dto, NinjaDeNinjutsu.class);
+            case "GENJUTSU":
+                return objectMapper.convertValue(dto, NinjaDeGenjutsu.class);
+            case "TAIJUTSU":
+                return objectMapper.convertValue(dto, NinjaDeTaijutsu.class);
+            default:
+                throw new IllegalArgumentException("Tipo de ninja inválido: " + dto.getTipoNinja());
+        }
+    }
+
+    private PersonagemDTO converterEntidadeParaDTO(Personagem personagem) {
+        PersonagemDTO dto = objectMapper.convertValue(personagem, PersonagemDTO.class);
+        if (personagem instanceof NinjaDeNinjutsu) {
+            dto.setTipoNinja("NINJUTSU");
+        } else if (personagem instanceof NinjaDeGenjutsu) {
+            dto.setTipoNinja("GENJUTSU");
+        } else if (personagem instanceof NinjaDeTaijutsu) {
+            dto.setTipoNinja("TAIJUTSU");
+        }
+        return dto;
     }
 }
