@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -20,10 +20,12 @@ public abstract class Personagem {
     private Long id;
 
     private String nome;
-    private int idade;
-    private String aldeia;
-    private int chakra;
+    private int chakra = 100;
+    private int vida;
 
     @ElementCollection
-    private List<String> jutsus = new ArrayList<>();
+    @CollectionTable(name = "personagem_jutsus", joinColumns = @JoinColumn(name = "personagem_id"))
+    @MapKeyColumn(name = "nome_jutsu")
+    @Column(name = "jutsu")
+    private Map<String, Jutsu> jutsus = new HashMap<>();
 }
