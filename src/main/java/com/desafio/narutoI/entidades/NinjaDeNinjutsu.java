@@ -12,18 +12,22 @@ public class NinjaDeNinjutsu extends Personagem implements Ninja {
     @Override
     public void usarJutsu(String nomeJutsu, Personagem oponente) {
         Jutsu jutsu = getJutsus().get(nomeJutsu);
+
         if (jutsu == null) {
             System.out.println(getNome() + " não conhece o jutsu: " + nomeJutsu);
             return;
         }
+
         if (getChakra() < jutsu.getConsumoDeChakra()) {
             System.out.println(getNome() + " não tem chakra suficiente para usar " + nomeJutsu);
             return;
         }
 
         setChakra(getChakra() - jutsu.getConsumoDeChakra());
-        System.out.println(getNome() + " lançou um jutsu de Ninjutsu: " + nomeJutsu + ", causando " + jutsu.getDano() + " de dano!");
-        oponente.desviar(jutsu.getDano());
+        System.out.println(getNome() + " lançou um jutsu de Ninjutsu: " + nomeJutsu +
+                ", causando " + jutsu.getDano() + " de dano!");
+
+        ((Ninja) oponente).desviar(jutsu.getDano());
     }
 
     @Override
@@ -36,7 +40,4 @@ public class NinjaDeNinjutsu extends Personagem implements Ninja {
             System.out.println(getNome() + " recebeu o ataque e perdeu " + danoRecebido + " de vida!");
         }
     }
-
-
 }
-
