@@ -33,7 +33,7 @@ com.desafio.narutoI
 
 - ☕ **Java 17**
 - 🌱 **Spring Boot 3**
-- 🐍 *Utilização de objectMapper**
+- 🐍 **Utilização de objectMapper**
 - 💻 **H2 Database (banco em memória)**
 - 📦 **Maven**
 - 🦾 **Lombok**
