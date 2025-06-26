@@ -21,14 +21,18 @@ class PersonagemServiceTest {
     private PersonagemService personagemService;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         personagemRepository = mock(PersonagemRepository.class);
         objectMapper = new ObjectMapper();
         personagemService = new PersonagemService();
-        // Injetando mocks manualmente, pois não usamos @Autowired nos testes
-        personagemService = spy(personagemService);
-        doReturn(personagemRepository).when(personagemService).personagemRepository;
-        doReturn(objectMapper).when(personagemService).objectMapper;
+
+        java.lang.reflect.Field repoField = PersonagemService.class.getDeclaredField("personagemRepository");
+        repoField.setAccessible(true);
+        repoField.set(personagemService, personagemRepository);
+
+        java.lang.reflect.Field mapperField = PersonagemService.class.getDeclaredField("objectMapper");
+        mapperField.setAccessible(true);
+        mapperField.set(personagemService, objectMapper);
     }
 
     @Test
