@@ -1,6 +1,5 @@
 package com.desafio.narutoI;
 
-import com.desafio.narutoI.entidades.NinjaDeGenjutsu;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
