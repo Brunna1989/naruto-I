@@ -20,6 +20,11 @@ public class BatalhaService {
         if (atacanteOpt.isEmpty() || defensorOpt.isEmpty()) {
             return "Atacante ou defensor não encontrado.";
         }
+
+        Personagem atacante = atacanteOpt.get();
+        Personagem defensor = defensorOpt.get();
+
+        if (atacante)
     }
 
 
