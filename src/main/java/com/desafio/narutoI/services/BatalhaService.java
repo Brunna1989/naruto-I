@@ -1,3 +1,4 @@
+/*
 package com.desafio.narutoI.services;
 
 import com.desafio.narutoI.entidades.Personagem;
@@ -27,7 +28,5 @@ public class BatalhaService {
         if (atacante)
     }
 
-
-
-
 }
+*/
