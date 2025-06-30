@@ -26,6 +26,5 @@ public abstract class Personagem {
     @ElementCollection
     @CollectionTable(name = "personagem_jutsus", joinColumns = @JoinColumn(name = "personagem_id"))
     @MapKeyColumn(name = "nome_jutsu")
-    @Column(name = "jutsu")
     private Map<String, Jutsu> jutsus = new HashMap<>();
 }
