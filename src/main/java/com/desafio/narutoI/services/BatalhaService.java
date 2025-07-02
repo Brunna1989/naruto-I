@@ -3,10 +3,12 @@ package com.desafio.narutoI.services;
 import com.desafio.narutoI.entidades.Jutsu;
 import com.desafio.narutoI.entidades.Ninja;
 import com.desafio.narutoI.entidades.Personagem;
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+@Service
 public class BatalhaService {
 
     private final Random random = new Random();
