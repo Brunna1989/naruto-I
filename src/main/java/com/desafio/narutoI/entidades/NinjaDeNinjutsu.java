@@ -2,7 +2,6 @@ package com.desafio.narutoI.entidades;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-
 import java.util.Random;
 
 @Entity
@@ -18,12 +17,12 @@ public class NinjaDeNinjutsu extends Personagem implements Ninja {
             return;
         }
 
-        if (getChakra() < jutsu.getConsumoDeChakra()) {
+        if (getChakra() < jutsu.getCustoChakra()) {
             System.out.println(getNome() + " não tem chakra suficiente para usar " + nomeJutsu);
             return;
         }
 
-        setChakra(getChakra() - jutsu.getConsumoDeChakra());
+        setChakra(getChakra() - jutsu.getCustoChakra());
         System.out.println(getNome() + " lançou um jutsu de Ninjutsu: " + nomeJutsu +
                 ", causando " + jutsu.getDano() + " de dano!");
 

@@ -28,3 +28,4 @@ public abstract class Personagem {
     @MapKeyColumn(name = "nome_jutsu")
     private Map<String, Jutsu> jutsus = new HashMap<>();
 }
+
