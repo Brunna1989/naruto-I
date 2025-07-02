@@ -1,32 +1,44 @@
-/*
 package com.desafio.narutoI.services;
 
+import com.desafio.narutoI.entidades.Jutsu;
+import com.desafio.narutoI.entidades.Ninja;
 import com.desafio.narutoI.entidades.Personagem;
-import com.desafio.narutoI.repositories.PersonagemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
-import java.util.Optional;
-
-@Service
 public class BatalhaService {
 
-    @Autowired
-    private PersonagemRepository personagemRepository;
+    private final Random random = new Random();
 
-    public String iniciarBatalha(Long idAtacante,String nomeJutsu,Long idDefensor) {
-        Optional<Personagem>atacanteOpt = personagemRepository.findByid(idAtacante);
-        Optional<Personagem>defensorOpt = personagemRepository.findById(idDefensor);
+    public String iniciarBatalha(Ninja p1, Ninja p2) {
+        Ninja atacante = p1;
+        Ninja defensor = p2;
 
-        if (atacanteOpt.isEmpty() || defensorOpt.isEmpty()) {
-            return "Atacante ou defensor não encontrado.";
+        while (((Personagem) atacante).getVida() > 0 && ((Personagem) defensor).getVida() > 0) {
+            Personagem atacantePers = (Personagem) atacante;
+            if (!atacantePers.getJutsus().isEmpty() && atacantePers.getChakra() > 0) {
+                String nomeJutsu = escolherJutsuAleatorio(atacantePers.getJutsus());
+                atacante.usarJutsu(nomeJutsu, (Personagem) defensor);
+            }
+            if (((Personagem) defensor).getVida() <= 0 || atacantePers.getChakra() <= 0) break;
+
+            Ninja temp = atacante;
+            atacante = defensor;
+            defensor = temp;
         }
 
-        Personagem atacante = atacanteOpt.get();
-        Personagem defensor = defensorOpt.get();
-
-        if (atacante)
+        if (((Personagem) p1).getVida() > 0) {
+            return ((Personagem) p1).getNome() + " venceu a batalha!";
+        } else if (((Personagem) p2).getVida() > 0) {
+            return ((Personagem) p2).getNome() + " venceu a batalha!";
+        } else {
+            return "Empate! Ambos os ninjas foram derrotados.";
+        }
     }
 
+    private String escolherJutsuAleatorio(Map<String, Jutsu> jutsus) {
+        List<String> nomes = jutsus.keySet().stream().toList();
+        return nomes.get(random.nextInt(nomes.size()));
+    }
 }
-*/
